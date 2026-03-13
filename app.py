@@ -444,27 +444,21 @@ def admin_eliminar_producto(id):
 
 @app.route("/admin/pedidos")
 def admin_pedidos():
-    ...
-    return render_template("admin/admin_pedidos.html", pedidos=pedidos)
-
-
-@app.route("/admin/eliminar_pedido/<int:id>")
-def admin_eliminar_pedido(id):
 
     if session.get("rol") != "admin":
         return redirect(url_for("login"))
 
     conn = get_db()
 
-    conn.execute("DELETE FROM detalle_pedido WHERE id_pedido = ?", (id,))
-    conn.execute("DELETE FROM pedidos WHERE id_pedido = ?", (id,))
-
-    conn.commit()
-    conn.close()
-
-    return redirect(url_for("admin_pedidos"))
-
-    
+    pedidos = conn.execute(
+        """
+        SELECT pedidos.*, usuarios.nombre
+        FROM pedidos
+        JOIN usuarios
+        ON pedidos.id_usuario = usuarios.id_usuario
+        ORDER BY fecha DESC
+        """
+    ).fetchall()
 
     conn.close()
 
@@ -472,9 +466,6 @@ def admin_eliminar_pedido(id):
         "admin/admin_pedidos.html",
         pedidos=pedidos
     )
-
-
-    
 
 
 @app.route("/admin/pedidos/<int:id>")
