@@ -2,28 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 from datetime import datetime
 import random
-from functools import wraps   # NUEVO
 
 app = Flask(__name__)
 app.secret_key = "cleopatra_secret"
 
 DATABASE = "cleopatra.db"
-
-
-# -------------------------
-# DECORADOR LOGIN REQUIRED
-# -------------------------
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-
-        if "usuario_id" not in session:
-            return redirect(url_for("login"))
-
-        return f(*args, **kwargs)
-
-    return decorated_function
 
 
 # -------------------------
@@ -154,11 +137,10 @@ def logout():
 
 
 # -------------------------
-# CARRITO (PROTEGIDO)
+# CARRITO
 # -------------------------
 
 @app.route("/agregar_carrito/<int:id>", methods=["POST"])
-@login_required
 def agregar_carrito(id):
 
     cantidad = int(request.form["cantidad"])
@@ -192,7 +174,6 @@ def agregar_carrito(id):
 
 
 @app.route("/carrito")
-@login_required
 def carrito():
 
     carrito = session.get("carrito", [])
@@ -209,7 +190,6 @@ def carrito():
 
 
 @app.route("/eliminar_carrito/<int:index>")
-@login_required
 def eliminar_carrito(index):
 
     carrito = session.get("carrito", [])
@@ -227,8 +207,10 @@ def eliminar_carrito(index):
 # -------------------------
 
 @app.route("/generar_pedido")
-@login_required
 def generar_pedido():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
 
     carrito = session.get("carrito", [])
 
@@ -284,9 +266,13 @@ def generar_pedido():
     )
 
 
+
+
 @app.route("/mis_pedidos")
-@login_required
 def mis_pedidos():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
 
     conexion = sqlite3.connect("cleopatra.db")
     cursor = conexion.cursor()
@@ -306,7 +292,6 @@ def mis_pedidos():
         "cliente/mis_pedidos.html",
         pedidos=pedidos
     )
-
 
 # -------------------------
 # ADMIN PANEL
@@ -347,7 +332,9 @@ def admin_productos():
     return render_template(
         "admin/admin_productos.html",
         productos=productos
-    )# <- agrega debug=True
+    )
+
+
 @app.route("/admin/productos/crear", methods=["GET", "POST"])
 def admin_crear_producto():
 
@@ -536,6 +523,6 @@ def cambiar_estado_pedido(id):
 
 import os
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)  # <- agrega debug=True
