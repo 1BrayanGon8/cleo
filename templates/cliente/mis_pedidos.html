@@ -39,14 +39,27 @@
 {% for pedido in pedidos %}
 
 <tr>
-
+<td>{{ pedido[0] }}</td>
 <td>{{ pedido[1] }}</td>
-
 <td>{{ pedido[2] }}</td>
-
 <td>${{ pedido[3] }}</td>
-
 <td>{{ pedido[4] }}</td>
+
+<td>
+
+{% if pedido[4] == "Pendiente" %}
+
+<a href="/cancelar_pedido/{{ pedido[0] }}"
+class="btn"
+onclick="return confirm('¿Cancelar este pedido?')">
+Cancelar
+</a>
+
+{% else %}
+No disponible
+{% endif %}
+
+</td>
 
 </tr>
 
