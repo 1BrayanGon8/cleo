@@ -48,10 +48,7 @@
             <td>{{ producto.id_producto }}</td>
 
             <td>
-                <img 
-                    <img src="{{ url_for('static', filename='img/' ~ (producto.imagen or 'default.png')) }}" alt="{{ producto.nombre }}"> 
-                    width="60"
-                >
+                    <img src="{{ url_for('static', filename='img/' ~ (producto.imagen or 'default.png')) }}" class="admin-img" alt="{{ producto.nombre }}">
             </td>
 
             <td>{{ producto.nombre }}</td>

@@ -30,7 +30,13 @@ FUENTE Y RESET
     height:220px;
     object-fit:contain;
 }
+/*admin imagenes*/
 
+.admin-img{
+width:80px;
+height:80px;
+object-fit:contain;
+}
 
 
 
