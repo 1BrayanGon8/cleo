@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cleopatra</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+<h1>Cleopatra</h1>
+
+<nav>
+<a href="{{ url_for('catalogo') }}">Catálogo</a>
+<a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('registro') }}">Registro</a>
+</nav>
+</header>
+
+<section class="home">
+
+<h2>Bienvenido a Cleopatra</h2>
+
+<p>Tienda de productos para regalos y festividades.</p>
+
+<a class="btn" href="{{ url_for('catalogo') }}">
+Ver catálogo
+</a>
+
+</section>
+
+<footer>
+<p>Cleopatra</p>
+</footer>
+
+</body>
+</html>

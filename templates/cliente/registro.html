@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | CLEOPATRA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>Tienda CLEOPATRA</h1>
+    <p>Crea tu cuenta para comprar y gestionar tus pedidos</p>
+</header>
+
+
+<main class="registro-container">
+
+    <div class="registro-box">
+
+        <h2>Crear cuenta</h2>
+
+        <form action="/registro" method="POST">
+
+            <div class="campo">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre" required>
+            </div>
+
+            <div class="campo">
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" required>
+            </div>
+
+            <div class="campo">
+                <label>Contraseña</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <div class="campo">
+                <label>Confirmar contraseña</label>
+                <input type="password" name="confirmar_password" required>
+            </div>
+
+            <button type="submit" class="btn-registro">
+                Crear cuenta
+            </button>
+
+        </form>
+
+
+        <div class="registro-links">
+
+            <p>¿Ya tienes una cuenta?</p>
+            <a href="/login">Iniciar sesión</a>
+
+        </div>
+
+        <div class="volver">
+
+            <a href="/catalogo">← Volver al catálogo</a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    <p>© 2026 CLEOPATRA Marketplace</p>
+</footer>
+
+</body>
+</html>

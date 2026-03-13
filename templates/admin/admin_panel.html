@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Administrador | Cleopatra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Panel Administrador</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('catalogo') }}">Ver tienda</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    </nav>
+
+</header>
+
+
+<section class="admin-panel">
+
+    <h2>Bienvenido {{ session.get('nombre') }}</h2>
+
+    <p>Desde aquí puedes administrar el sistema.</p>
+
+    <div class="admin-opciones">
+
+        <div class="admin-card">
+
+            <h3>Gestionar productos</h3>
+
+            <p>
+                Crear, editar o eliminar productos del catálogo.
+            </p>
+
+            <a href="{{ url_for('admin_productos') }}">
+                <button>Ir a productos</button>
+            </a>
+
+        </div>
+
+
+        <div class="admin-card">
+
+            <h3>Gestionar pedidos</h3>
+
+            <p>
+                Ver pedidos realizados por los clientes.
+            </p>
+
+            <a href="{{ url_for('admin_pedidos') }}">
+                <button>Ir a pedidos</button>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>Cleopatra Admin</p>
+
+</footer>
+
+</body>
+</html>

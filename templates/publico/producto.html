@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ producto.nombre }} | Cleopatra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Tienda Cleopatra</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('catalogo') }}">Catálogo</a>
+        <a href="{{ url_for('carrito') }}">Carrito</a>
+
+        {% if session.get('usuario_id') %}
+            <span>Hola {{ session.get('nombre') }}</span>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </nav>
+
+</header>
+
+
+<section class="producto-detalle">
+
+    <div class="producto-imagen">
+
+        <img src="{{ url_for('static', filename='img/' ~ (producto.imagen or 'default.png')) }}" alt="{{ producto.nombre }}">
+
+    </div>
+
+
+    <div class="producto-info">
+
+        <h2>{{ producto.nombre }}</h2>
+
+        <p class="precio">
+            ${{ producto.precio }}
+        </p>
+
+        <p class="descripcion">
+            {{ producto.descripcion }}
+        </p>
+
+
+        <form action="{{ url_for('agregar_carrito', id=producto.id_producto) }}" method="POST">
+
+            <label>Cantidad:</label>
+            <input type="number" name="cantidad" value="1" min="1" required>
+
+
+            <label>Personalización:</label>
+            <textarea 
+                name="personalizacion"
+                placeholder="Ejemplo: color, nombre grabado, tamaño..."
+            ></textarea>
+
+
+            <button type="submit">
+                Agregar al carrito
+            </button>
+
+        </form>
+
+
+        <br>
+
+        <a href="{{ url_for('catalogo') }}">
+            ← Volver al catálogo
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>Cleopatra Store</p>
+
+</footer>
+
+</body>
+</html>

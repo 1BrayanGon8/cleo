@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mis pedidos | Cleopatra</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Mis pedidos</h1>
+
+<nav>
+<a href="{{ url_for('catalogo') }}">Catálogo</a>
+<a href="{{ url_for('carrito') }}">Carrito</a>
+<a href="{{ url_for('logout') }}">Cerrar sesión</a>
+</nav>
+
+</header>
+
+
+<section class="carrito-container">
+
+<h2>Historial de pedidos</h2>
+
+{% if pedidos %}
+
+<table>
+
+<tr>
+<th>Referencia</th>
+<th>Fecha</th>
+<th>Total</th>
+<th>Estado</th>
+</tr>
+
+{% for pedido in pedidos %}
+
+<tr>
+
+<td>{{ pedido[1] }}</td>
+
+<td>{{ pedido[2] }}</td>
+
+<td>${{ pedido[3] }}</td>
+
+<td>{{ pedido[4] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% else %}
+
+<p>No tienes pedidos registrados.</p>
+
+{% endif %}
+
+</section>
+
+<footer>
+<p>Cleopatra</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del pedido | Cleopatra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Detalle del Pedido</h1>
+
+    <nav>
+        <a href="{{ url_for('admin_pedidos') }}">Volver a pedidos</a>
+        <a href="{{ url_for('admin_panel') }}">Panel admin</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    </nav>
+
+</header>
+
+
+<section class="detalle-pedido">
+
+    <h2>Pedido #{{ id_pedido }}</h2>
+
+    {% if detalles %}
+
+    <table>
+
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Personalización</th>
+            <th>Subtotal</th>
+        </tr>
+
+        {% for item in detalles %}
+
+        <tr>
+
+            <td>{{ item.nombre }}</td>
+
+            <td>${{ item.precio_unitario }}</td>
+
+            <td>{{ item.cantidad }}</td>
+
+            <td>{{ item.personalizacion }}</td>
+
+            <td>
+                ${{ item.precio_unitario * item.cantidad }}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% endif %}
+
+
+    <h3>Cambiar estado del pedido</h3>
+
+    <form method="POST" action="{{ url_for('cambiar_estado_pedido', id=id_pedido) }}">
+
+        <select name="estado">
+
+            <option value="Pendiente">Pendiente</option>
+            <option value="En preparación">En preparación</option>
+            <option value="Enviado">Enviado</option>
+            <option value="Entregado">Entregado</option>
+
+        </select>
+
+        <button type="submit">
+            Actualizar estado
+        </button>
+
+    </form>
+
+</section>
+
+
+<footer>
+
+    <p>Cleopatra Admin</p>
+
+</footer>
+
+</body>
+</html>

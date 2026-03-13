@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito | Cleopatra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Tienda Cleopatra</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('catalogo') }}">Catálogo</a>
+        <a href="{{ url_for('carrito') }}">Carrito</a>
+
+        {% if session.get('usuario_id') %}
+            <span>Hola {{ session.get('nombre') }}</span>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% endif %}
+    </nav>
+
+</header>
+
+
+<section class="carrito">
+
+    <h2>Tu carrito</h2>
+
+    {% if carrito %}
+
+    <table>
+
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Personalización</th>
+            <th>Subtotal</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for item in carrito %}
+
+        <tr>
+
+            <td>{{ item.nombre }}</td>
+
+            <td>${{ item.precio }}</td>
+
+            <td>{{ item.cantidad }}</td>
+
+            <td>{{ item.personalizacion }}</td>
+
+            <td>
+                ${{ item.precio * item.cantidad }}
+            </td>
+
+            <td>
+
+                <a href="{{ url_for('eliminar_carrito', index=loop.index0) }}">
+                    Eliminar
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+
+    <h3>Total: ${{ total }}</h3>
+
+
+    <a href="{{ url_for('generar_pedido') }}">
+        <button>Generar pedido</button>
+    </a>
+
+
+    {% else %}
+
+        <p>Tu carrito está vacío.</p>
+
+        <a href="{{ url_for('catalogo') }}">
+            Ir al catálogo
+        </a>
+
+    {% endif %}
+
+</section>
+
+
+<footer>
+
+    <p>Cleopatra Store</p>
+
+</footer>
+
+</body>
+</html>

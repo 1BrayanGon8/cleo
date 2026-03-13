@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Producto | Cleopatra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Administrar Producto</h1>
+
+    <nav>
+        <a href="{{ url_for('admin_productos') }}">Volver a productos</a>
+        <a href="{{ url_for('admin_panel') }}">Panel admin</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    </nav>
+
+</header>
+
+
+<section class="form-producto">
+
+    {% if producto %}
+        <h2>Editar producto</h2>
+    {% else %}
+        <h2>Crear nuevo producto</h2>
+    {% endif %}
+
+
+    <form method="POST">
+
+        <label>Nombre del producto</label>
+        <input 
+            type="text" 
+            name="nombre"
+            value="{{ producto.nombre if producto else '' }}"
+            required
+        >
+
+
+        <label>Descripción</label>
+        <textarea name="descripcion" required>
+{{ producto.descripcion if producto else '' }}
+        </textarea>
+
+
+        <label>Precio</label>
+        <input 
+            type="number"
+            name="precio"
+            step="0.01"
+            value="{{ producto.precio if producto else '' }}"
+            required
+        >
+
+
+        <label>Imagen (nombre del archivo)</label>
+        <input 
+            type="text"
+            name="imagen"
+            placeholder="ejemplo: collar.jpg"
+            value="{{ producto.imagen if producto else '' }}"
+            required
+        >
+
+
+        <label>Categoría</label>
+
+        <select name="id_categoria" required>
+
+            {% for categoria in categorias %}
+
+            <option 
+                value="{{ categoria.id_categoria }}"
+
+                {% if producto and producto.id_categoria == categoria.id_categoria %}
+                    selected
+                {% endif %}
+
+            >
+                {{ categoria.nombre }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <br><br>
+
+        <button type="submit">
+
+            {% if producto %}
+                Actualizar producto
+            {% else %}
+                Crear producto
+            {% endif %}
+
+        </button>
+
+    </form>
+
+</section>
+
+
+<footer>
+
+    <p>Cleopatra Admin</p>
+
+</footer>
+
+</body>
+</html>

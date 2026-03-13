@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo | Cleopatra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Tienda Cleopatra</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('catalogo') }}">Catálogo</a>
+        <a href="{{ url_for('carrito') }}">Carrito</a>
+
+        {% if session.get('usuario_id') %}
+            <span>Hola {{ session.get('nombre') }}</span>
+            <a href="{{ url_for('mis_pedidos') }}">Mis pedidos</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </nav>
+
+</header>
+
+
+<section class="filtro">
+
+    <h2>Filtrar por categoría</h2>
+
+    <a href="{{ url_for('catalogo') }}">Todas</a>
+
+    {% for categoria in categorias %}
+        <a href="{{ url_for('catalogo') }}?categoria={{ categoria.id_categoria }}">
+            {{ categoria.nombre }}
+        </a>
+    {% endfor %}
+
+</section>
+
+
+<section class="catalogo">
+
+    <h2>Productos</h2>
+
+    <div class="grid-productos">
+
+        {% for producto in productos %}
+
+        <div class="producto">
+
+
+
+            <img src="{{ url_for('static', filename='img/' + (producto.imagen or 'producto1.jpg')) }}" class="producto-img">
+
+            <h3>{{ producto.nombre }}</h3>
+
+            <p>${{ producto.precio }}</p>
+
+            <a href="{{ url_for('producto', id=producto.id_producto) }}">
+                Ver producto
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>Cleopatra Store</p>
+
+</footer>
+
+</body>
+</html>
