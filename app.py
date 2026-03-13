@@ -299,6 +299,40 @@ def mis_pedidos():
         pedidos=pedidos
     )
 
+@app.route("/cancelar_pedido/<int:id>")
+def cancelar_pedido(id):
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = get_db()
+
+    # verificar que el pedido pertenece al usuario
+    pedido = conn.execute(
+        "SELECT * FROM pedidos WHERE id_pedido=? AND id_usuario=?",
+        (id, session["usuario_id"])
+    ).fetchone()
+
+    if pedido:
+
+        # eliminar primero el detalle del pedido
+        conn.execute(
+            "DELETE FROM detalle_pedido WHERE id_pedido=?",
+            (id,)
+        )
+
+        # eliminar el pedido
+        conn.execute(
+            "DELETE FROM pedidos WHERE id_pedido=?",
+            (id,)
+        )
+
+        conn.commit()
+
+    conn.close()
+
+    return redirect(url_for("mis_pedidos"))
+
 # -------------------------
 # ADMIN PANEL
 # -------------------------
