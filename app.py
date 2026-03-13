@@ -143,6 +143,9 @@ def logout():
 @app.route("/agregar_carrito/<int:id>", methods=["POST"])
 def agregar_carrito(id):
 
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
     cantidad = int(request.form["cantidad"])
     personalizacion = request.form.get("personalizacion", "")
 
@@ -175,6 +178,9 @@ def agregar_carrito(id):
 
 @app.route("/carrito")
 def carrito():
+
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
 
     carrito = session.get("carrito", [])
 
